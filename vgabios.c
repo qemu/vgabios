@@ -533,7 +533,7 @@ static void int10_func(DI, SI, BP, SP, BX, DX, CX, AX, DS, ES, FLAGS)
         biosfn_get_all_palette_reg(ES,DX);
         break;
        case 0x10:
-        biosfn_set_single_dac_reg(BX,GET_CH(),GET_CL(),GET_DL());
+        biosfn_set_single_dac_reg(BX,GET_CH(),GET_CL(),GET_DH());
         break;
        case 0x12:
         biosfn_set_all_dac_reg(BX,CX,ES,DX);

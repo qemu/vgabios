@@ -873,6 +873,8 @@ static void biosfn_set_video_mode(mode) Bit8u mode;
  // Set CRTC address VGA or MDA 
  crtc_addr=vga_modes[line].memmodel==MTEXT?VGAREG_MDA_CRTC_ADDRESS:VGAREG_VGA_CRTC_ADDRESS;
 
+ // Disable CRTC write protection
+ outw(crtc_addr,0x0011);
  // Set CRTC regs
  for(i=0;i<=CRTC_MAX_REG;i++)
   {outb(crtc_addr,i);

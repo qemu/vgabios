@@ -127,6 +127,16 @@ MACRO HALT
 MEND
 #endasm
 
+/** Has VBE display - Returns true if VBE display detected
+ *
+ */
+Boolean vbe_has_vbe_display()
+{
+  outw(VBE_DISPI_IOPORT_INDEX,VBE_DISPI_INDEX_ID);
+  outw(VBE_DISPI_IOPORT_DATA,VBE_DISPI_ID0);
+
+  return (inw(VBE_DISPI_IOPORT_DATA)==VBE_DISPI_ID0);
+}
 
 /** VBE Init - Initialise the Vesa Bios Extension Code
  *

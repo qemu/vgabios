@@ -123,7 +123,7 @@ _vbebios_mode_list:
 #endasm
 
 // from rombios.c
-#define PANIC_PORT 0x400
+#define PANIC_PORT 0x501
 
 #asm
 MACRO HALT
@@ -237,9 +237,9 @@ void vbe_init()
     HALT(__LINE__)
 #endasm    
   }
-#ifdef DEBUG
+//#ifdef DEBUG
   printf("VBE Bios $Id$\n");
-#endif  
+//#endif  
 }
 
 /** VBE Display Info - Display information on screen about the VBE

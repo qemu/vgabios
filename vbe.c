@@ -192,6 +192,35 @@ static void dispi_set_bank(bank)
   outw(VBE_DISPI_IOPORT_DATA,bank);
 }
 
+static void dispi_set_bank_farcall()
+{
+ASM_START
+  cmp bx,#0x0100
+  je dispi_set_bank_farcall_get
+  or bx,bx
+  jnz dispi_set_bank_farcall_error
+  push dx
+  mov ax,# VBE_DISPI_INDEX_BANK
+  mov dx,# VBE_DISPI_IOPORT_INDEX
+  out dx,ax
+  pop ax
+  mov dx,# VBE_DISPI_IOPORT_DATA
+  out dx,ax
+  retf
+dispi_set_bank_farcall_get:
+  mov ax,# VBE_DISPI_INDEX_BANK
+  mov dx,# VBE_DISPI_IOPORT_INDEX
+  out dx,ax
+  mov dx,# VBE_DISPI_IOPORT_DATA
+  in ax,dx
+  mov dx,ax
+  retf
+dispi_set_bank_farcall_error:
+  mov ax,#0x014F
+  retf
+ASM_END
+}
+
 static void dispi_set_x_offset(offset)
   Bit16u offset;
 {
@@ -510,6 +539,10 @@ Bit16u *AX;Bit16u CX; Bit16u ES;Bit16u DI;
 #endif        
                 memsetb(ss, &info, 0, sizeof(ModeInfoBlock));
                 memcpyb(ss, &info, 0xc000, &(cur_info->info), sizeof(ModeInfoBlockCompact));
+                if (info.WinAAttributes & VBE_WINDOW_ATTRIBUTE_RELOCATABLE) {
+                  info.WinFuncPtr = 0xC0000000UL;
+                  *(Bit16u *)&(info.WinFuncPtr) = (Bit16u)(dispi_set_bank_farcall);
+                }
                 
                 result = 0x4f;
         }

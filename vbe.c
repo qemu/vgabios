@@ -175,14 +175,15 @@ static Bit16u dispi_get_bpp()
 
 static Bit16u dispi_get_max_bpp()
 {
-  Bit16u max_bpp;
+  Bit16u max_bpp, vbe_enable;
 
   outw(VBE_DISPI_IOPORT_INDEX,VBE_DISPI_INDEX_ENABLE);
-  outw(VBE_DISPI_IOPORT_DATA,VBE_DISPI_GETCAPS);
+  vbe_enable = inw(VBE_DISPI_IOPORT_DATA);
+  outw(VBE_DISPI_IOPORT_DATA,vbe_enable|VBE_DISPI_GETCAPS);
   outw(VBE_DISPI_IOPORT_INDEX,VBE_DISPI_INDEX_BPP);
   max_bpp = inw(VBE_DISPI_IOPORT_DATA);
   outw(VBE_DISPI_IOPORT_INDEX,VBE_DISPI_INDEX_ENABLE);
-  outw(VBE_DISPI_IOPORT_DATA,VBE_DISPI_DISABLED);
+  outw(VBE_DISPI_IOPORT_DATA,vbe_enable);
   return max_bpp;
 }
 

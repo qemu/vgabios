@@ -31,7 +31,7 @@
 
 // defines available
 // enable LFB support (depends upon bochs-vbe-lfb patch)
-//#define VBE_HAVE_LFB
+#define VBE_HAVE_LFB
 
 // disable VESA/VBE2 check in vbe info
 //#define VBE2_NO_VESA_CHECK

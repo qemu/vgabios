@@ -37,7 +37,7 @@
 //#define VBE2_NO_VESA_CHECK
 
 // dynamicly generate a mode_info list
-//#define DYN_LIST
+#define DYN_LIST
 
 
 #include "vbe.h"
@@ -392,10 +392,8 @@ Bit16u *AX;Bit16u ES;Bit16u DI;
         Bit16u            status;
         Bit16u            result;
         Bit16u            vbe2_info;
-#ifdef DYN_LIST
-        Bit16u            *video_mode_list;
-#endif
         Bit16u            cur_mode=0;
+        Bit16u            cur_ptr=34;
         ModeInfoListItem  *cur_info=&mode_info_list;
         
         status = read_word(ss, AX);
@@ -448,36 +446,13 @@ Bit16u *AX;Bit16u ES;Bit16u DI;
         vbe_info_block.Capabilities[3] = 0;
 
 #ifdef DYN_LIST
-        // FIXME: This doesn't work correctly somehow?
         // VBE Video Mode Pointer (dynamicly generated from the mode_info_list)
-        vbe_info_block.VideoModePtr_Seg= ES ;//0xc000;
-        vbe_info_block.VideoModePtr_Off= DI + 34;//&(VBEInfoData->Reserved);//&vbebios_mode_list;
+        vbe_info_block.VideoModePtr_Seg= ES ;
+        vbe_info_block.VideoModePtr_Off= DI + 34;
 #else
         // VBE Video Mode Pointer (staticly in rom)
         vbe_info_block.VideoModePtr_Seg = 0xc000;
         vbe_info_block.VideoModePtr_Off = &vbebios_mode_list;
-
-#endif
-
-#ifdef DYN_LIST
-
-//      video_mode_list=(Bit16u*)&(vbe_info_block.Reserved);
-
-        do
-        {
-#ifdef DEBUG
-                printf("VBE found mode %x => %x\n", cur_info->mode,cur_mode);
-#endif
-//              *video_mode_list=cur_info->mode;
-                vbe_info_block.Reserved[cur_mode] = cur_info->mode;
-                
-                cur_info++;
-                //video_mode_list++;
-                cur_mode++;
-        } while (cur_info->mode != VBE_VESA_MODE_END_OF_LIST);
-        
-        // Add vesa mode list terminator
-        vbe_info_block.Reserved[cur_mode] = VBE_VESA_MODE_END_OF_LIST;
 #endif
 
         // VBE Total Memory (in 64b blocks)
@@ -503,6 +478,23 @@ Bit16u *AX;Bit16u ES;Bit16u DI;
                 memcpyb(ES, DI, ss, &vbe_info_block, 256);
 	}
                 
+#ifdef DYN_LIST
+        do
+        {
+#ifdef DEBUG
+                printf("VBE found mode %x => %x\n", cur_info->mode,cur_mode);
+#endif
+                write_word(ES, DI + cur_ptr, cur_info->mode);
+
+                cur_info++;
+                cur_mode++;
+                cur_ptr+=2;
+        } while (cur_info->mode != VBE_VESA_MODE_END_OF_LIST);
+        
+        // Add vesa mode list terminator
+        write_word(ES, DI + cur_ptr, cur_info->mode);
+#endif
+
         result = 0x4f;
 
         write_word(ss, AX, result);

@@ -285,9 +285,7 @@ static void init_vga_card()
 
 #endasm
 
-#ifdef DEBUG
   printf("VGABios $Id$\n");
-#endif
 }
 
 // --------------------------------------------------------------------------------------------
@@ -2363,7 +2361,6 @@ void unknown()
 }
 #endif
 
-#ifdef DEBUG
 // --------------------------------------------------------------------------------------------
 void printf(s)
   Bit8u *s;
@@ -2399,9 +2396,9 @@ void printf(s)
         for (i=0; i<format_width; i++) {
           nibble = (arg >> (4 * digit)) & 0x000f;
           if (nibble <= 9)
-            outb(0xfff0, nibble + '0');
+            outb(0x0500, nibble + '0');
           else
-            outb(0xfff0, (nibble - 10) + 'A');
+            outb(0x0500, (nibble - 10) + 'A');
           digit--;
           }
         in_format = 0;
@@ -2411,12 +2408,11 @@ void printf(s)
       //  }
       }
     else {
-      outb(0xfff0, c);
+      outb(0x0500, c);
       }
     s ++;
     }
 }
-#endif
 
 #ifdef VBE
 #include "vbe.c"

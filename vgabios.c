@@ -715,20 +715,10 @@ static void int10_func(DI, SI, BP, SP, BX, DX, CX, AX, DS, ES, FLAGS)
           vbe_biosfn_display_window_control(&AX,BX,&DX);
           break;
          case 0x06:
-          //FIXME
-#ifdef DEBUG
-          unimplemented();
-#endif
-          // function failed
-          AX=0x100;
+          vbe_biosfn_set_get_logical_scan_line_length(&AX,&BX,&CX,&DX);
           break;
          case 0x07:
-          //FIXME
-#ifdef DEBUG   
-          unimplemented();
-#endif
-          // function failed
-          AX=0x100;
+          vbe_biosfn_set_get_display_start(&AX,BX,CX,DX);
           break;
          case 0x08:
           //FIXME

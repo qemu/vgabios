@@ -83,17 +83,14 @@ _vbebios_product_revision:
 .byte        0x00
 
 _vbebios_info_string:
-.ascii      "Bochs VBE Display Adapter"
-.byte	0x0a,0x0d
-.ascii      "(C) 2002 Jeroen Janssen <japj-vbebios@darius.demon.nl>"
-.byte	0x0a,0x0d
-.ascii	"This VBE Bios is released under the GNU LGPL"
+.ascii      "Bochs VBE Display Adapter enabled"
 .byte	0x0a,0x0d
 .byte	0x0a,0x0d
 .byte	0x00
 
 _no_vbebios_info_string:
 .ascii      "NO Bochs VBE Support available!"
+.byte	0x0a,0x0d
 .byte	0x0a,0x0d
 .byte 0x00
 

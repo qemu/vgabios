@@ -782,26 +782,9 @@ static void biosfn_set_video_mode(mode) Bit8u mode;
  
 #ifdef VBE
  if (vbe_has_vbe_display()) { 
-   #asm
-   // FIXME: how to to do this nicely?
-   // bochs vbe code disable video mode
-   push dx
-   push ax
-   mov dx, #VBE_DISPI_IOPORT_INDEX
-
-   // disable video mode
-   mov ax, #VBE_DISPI_INDEX_ENABLE
-   out dx, ax
-   inc dx
-   mov ax, #VBE_DISPI_DISABLED
-   out dx, ax
-   pop ax
-   pop dx
-
-   #endasm
+   dispi_set_enable(VBE_DISPI_DISABLED);
   }
 #endif // def VBE
- 
  
  // The real mode
  mode=mode&0x7f;

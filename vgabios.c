@@ -195,7 +195,7 @@ vgabios_date:
 .byte	0x00
 
 vgabios_copyright:
-.ascii	"(C) 2002 the LGPL VGABios developers Team"
+.ascii	"(C) 2003 the LGPL VGABios developers Team"
 .byte	0x0a,0x0d
 .byte	0x00
 

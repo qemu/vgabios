@@ -710,6 +710,8 @@ static void int10_func(DI, SI, BP, SP, BX, DX, CX, AX, DS, ES, FLAGS)
 #ifdef DEBUG
           unimplemented();
 #endif
+          // function failed
+          AX=0x100;
           break;
          case 0x05:
           vbe_biosfn_display_window_control(&AX,BX,&DX);
@@ -719,40 +721,52 @@ static void int10_func(DI, SI, BP, SP, BX, DX, CX, AX, DS, ES, FLAGS)
 #ifdef DEBUG
           unimplemented();
 #endif
+          // function failed
+          AX=0x100;
           break;
          case 0x07:
           //FIXME
 #ifdef DEBUG   
           unimplemented();
 #endif
+          // function failed
+          AX=0x100;
           break;
          case 0x08:
           //FIXME
 #ifdef DEBUG
           unimplemented();
 #endif
+          // function failed
+          AX=0x100;
           break;
          case 0x09:
           //FIXME
 #ifdef DEBUG
           unimplemented();
 #endif
+          // function failed
+          AX=0x100;
           break;
          case 0x0A:
           //FIXME
 #ifdef DEBUG
           unimplemented();
 #endif
+          // function failed
+          AX=0x100;
           break;
 #ifdef DEBUG
          default:
           unknown();
 #endif   		 
+          // function failed
+          AX=0x100;
           }
         }
         else {
           // No VBE display
-          SET_AH(0x01);
+          AX=0x0100;
           }
         break;
 #endif

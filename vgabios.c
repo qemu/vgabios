@@ -235,6 +235,7 @@ init_no_vbe_display:
   mov bl, #0x00
   int #0x10
   mov ax, #0x1103
+  mov bl, #0x00
   int #0x10
 
 ;; show info
@@ -935,8 +936,14 @@ static void biosfn_set_video_mode(mode) Bit8u mode;
  // Set cursor shape
  if(vga_modes[line].class==TEXT)
   {
-    //biosfn_set_cursor_shape(0x06,0x07); // CGA
-    biosfn_set_cursor_shape(0x0A,0x0B); // Monochrome
+   if(cheight<14)
+    {
+     biosfn_set_cursor_shape(0x06,0x07);
+    }
+   else
+    {
+     biosfn_set_cursor_shape(0x0C,0x0D);
+    }
   }
 
  // Set cursor pos for page 0..7

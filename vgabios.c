@@ -1382,10 +1382,15 @@ Bit8u car;Bit8u attr;Bit8u xcurs;Bit8u ycurs;Bit8u nbcols;Bit8u cheight;
   }
  addr=xcurs+ycurs*cheight*nbcols;
  src = car * cheight;
+ outw(VGAREG_SEQU_ADDRESS, 0x0f02);
  outw(VGAREG_GRDC_ADDRESS, 0x0205);
  if(attr&0x80)
   {
    outw(VGAREG_GRDC_ADDRESS, 0x1803);
+  }
+ else
+  {
+   outw(VGAREG_GRDC_ADDRESS, 0x0003);
   }
  for(i=0;i<cheight;i++)
   {
@@ -1737,7 +1742,7 @@ static void biosfn_write_pixel (BH,AL,CX,DX) Bit8u BH;Bit8u AL;Bit16u CX;Bit16u 
    case PLANAR4:
    case PLANAR1:
      addr = CX/8+DX*read_word(BIOSMEM_SEG,BIOSMEM_NB_COLS);
-     mask = 0x01 << (7 - (CX & 0x07));
+     mask = 0x80 >> (CX & 0x07);
      outw(VGAREG_GRDC_ADDRESS, (mask << 8) | 0x08);
      outw(VGAREG_GRDC_ADDRESS, 0x0205);
      data = read_byte(0xa000,addr);
@@ -1817,7 +1822,7 @@ static void biosfn_read_pixel (BH,CX,DX,AX) Bit8u BH;Bit16u CX;Bit16u DX;Bit16u 
    case PLANAR4:
    case PLANAR1:
      addr = CX/8+DX*read_word(BIOSMEM_SEG,BIOSMEM_NB_COLS);
-     mask = 0x01 << (7 - (CX & 0x07));
+     mask = 0x80 >> (CX & 0x07);
      attr = 0x00;
      for(i=0;i<4;i++)
       {

@@ -28,11 +28,8 @@
 //
 // ============================================================================================
 
-#include "vbe.h"
-#include "vbetables.h"
 
 // defines available
-
 // enable LFB support (depends upon bochs-vbe-lfb patch)
 //#define VBE_HAVE_LFB
 
@@ -44,6 +41,11 @@
 
 // enable unsupported modi in the mode_info list (ie >8bpp)
 //#define LIST_UNSUPPORTED_MODI
+
+
+#include "vbe.h"
+#include "vbetables.h"
+
 
 // The current OEM Software Revision of this VBE Bios
 #define VBE_OEM_SOFTWARE_REV 0x0002;

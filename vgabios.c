@@ -868,6 +868,9 @@ static void biosfn_set_video_mode(mode) Bit8u mode;
     }
   }
 
+ // Reset Attribute Ctl flip-flop
+ inb(VGAREG_ACTL_RESET);
+
  // Set Attribute Ctl
  for(i=0;i<=ACTL_MAX_REG;i++)
   {outb(VGAREG_ACTL_ADDRESS,i);

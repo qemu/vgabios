@@ -644,7 +644,8 @@ Bit16u *AX;Bit16u BX; Bit16u ES;Bit16u DI;
                 dispi_set_enable(VBE_DISPI_ENABLED | no_clear | lfb_flag);
 
                 write_word(BIOSMEM_SEG,BIOSMEM_VBE_MODE,BX);
-  
+                write_byte(BIOSMEM_SEG,BIOSMEM_VIDEO_CTL,(0x60 | no_clear));
+
                 result = 0x4f;                  
         }
         else

@@ -59,7 +59,7 @@ extern Bit16u vbebios_mode_list;
 ASM_START
 // FIXME: 'merge' these (c) etc strings with the vgabios.c strings?
 _vbebios_copyright:
-.ascii       "Bochs/Plex86 VBE(C) 2003 Jeroen Janssen <japj@darius.demon.nl>"
+.ascii       "Bochs/Plex86 VBE(C) 2003 http://savannah.nongnu.org/projects/vgabios/"
 .byte        0x00
 
 _vbebios_vendor_name:

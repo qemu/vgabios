@@ -117,23 +117,6 @@ _vbebios_mode_list:
 .word VBE_VESA_MODE_END_OF_LIST
 #endif
 
-ASM_END
-
-// from rombios.c
-#define PANIC_PORT 0x501
-
-ASM_START
-MACRO HALT
-  ;; the HALT macro is called with the line number of the HALT call.
-  ;; The line number is then sent to the PANIC_PORT, causing Bochs to
-  ;; print a BX_PANIC message.  This will normally halt the simulation
-  ;; with a message such as "BIOS panic at rombios.c, line 4091".
-  ;; However, users can choose to make panics non-fatal and continue.
-  mov dx,#PANIC_PORT
-  mov ax,#?1
-  out dx,ax 
-MEND
-
 ; DISPI ioport functions
 
 dispi_get_id:

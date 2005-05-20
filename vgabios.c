@@ -734,8 +734,8 @@ static void int10_func(DI, SI, BP, SP, BX, DX, CX, AX, DS, ES, FLAGS)
           // function failed
           AX=0x100;
           break;
-#ifdef DEBUG
          default:
+#ifdef DEBUG
           unknown();
 #endif   		 
           // function failed

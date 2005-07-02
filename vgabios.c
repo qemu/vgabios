@@ -421,6 +421,8 @@ init_bios_area:
   mov   bx, # BIOSMEM_INITIAL_MODE
   mov   ax, [bx]
   and   ax, #0xffcf
+;; set 80x25 color (not clear from RBIL but usual)
+  or    ax, #0x0020
   mov   [bx], ax
 
 ;; Just for the first int10 find its children
@@ -1914,7 +1916,6 @@ Bit8u car;Bit8u page;Bit8u attr;Bit8u flag;
     break;
 
    case '\n':
-    xcurs=0;
     ycurs++;
     break;
 

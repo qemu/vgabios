@@ -154,6 +154,8 @@ vesa_pm_set_display_start1:
   movzx esi, ax
   pop  eax
 
+  cmp esi, #4
+  jz bpp4_mode
   add esi, #7
   shr esi, #3
   imul ecx, esi
@@ -163,7 +165,17 @@ vesa_pm_set_display_start1:
   mov eax, edx
   xor edx, edx
   div esi
+  jmp set_xy_regs
 
+bpp4_mode:
+  shr ecx, #1
+  xor edx, edx
+  div ecx
+  mov edi, eax
+  mov eax, edx
+  shl eax, #1
+
+set_xy_regs:
   push dx
   push ax
   mov  dx, # VBE_DISPI_IOPORT_INDEX

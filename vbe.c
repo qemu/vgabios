@@ -113,8 +113,14 @@ vesa_pm_set_display_window1:
   pop  ax
   mov  dx, # VBE_DISPI_IOPORT_DATA
   out  dx, ax
+  in   ax, dx
   pop  dx
+  cmp  dx, ax
+  jne  illegal_window
   mov  ax, #0x004f
+  ret
+illegal_window:
+  mov  ax, #0x014f
   ret
 
 vesa_pm_set_display_start:
@@ -398,13 +404,20 @@ ASM_START
   je dispi_set_bank_farcall_get
   or bx,bx
   jnz dispi_set_bank_farcall_error
+  mov ax,dx
   push dx
+  push ax
   mov ax,# VBE_DISPI_INDEX_BANK
   mov dx,# VBE_DISPI_IOPORT_INDEX
   out dx,ax
   pop ax
   mov dx,# VBE_DISPI_IOPORT_DATA
   out dx,ax
+  in  ax,dx
+  pop dx
+  cmp dx,ax
+  jne dispi_set_bank_farcall_error
+  mov ax, #0x004f
   retf
 dispi_set_bank_farcall_get:
   mov ax,# VBE_DISPI_INDEX_BANK
@@ -1117,6 +1130,11 @@ set_logical_scan_line_bytes:
   call dispi_get_bpp
   xor  bh, bh
   mov  bl, ah
+  or   bl, bl
+  jnz  no_4bpp_1
+  shl  ax, #3
+  mov  bl, #1
+no_4bpp_1:
   xor  dx, dx
   pop  ax
   div  bx
@@ -1128,6 +1146,11 @@ get_logical_scan_line_length:
   mov  bl, ah
   call dispi_get_virt_width
   mov  cx, ax
+  or   bl, bl
+  jnz  no_4bpp_2
+  shr  ax, #3
+  mov  bl, #1
+no_4bpp_2:
   mul  bx
   mov  bx, ax
   call dispi_get_virt_height

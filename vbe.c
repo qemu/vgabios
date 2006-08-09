@@ -600,7 +600,7 @@ vbe_init:
   mov  [bx], al
   pop  bx
   pop  ds
-  mov  ax, # VBE_DISPI_ID3
+  mov  ax, # VBE_DISPI_ID4
   call dispi_set_id
 no_vbe_interface:
 #if defined(USE_BX_INFO) || defined(DEBUG)

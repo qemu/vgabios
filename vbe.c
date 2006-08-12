@@ -38,6 +38,7 @@
 #include "vbe.h"
 #include "vbetables.h"
 
+#define VBE_TOTAL_VIDEO_MEMORY_DIV_64K (VBE_DISPI_TOTAL_VIDEO_MEMORY_MB*1024/64)
 
 // The current OEM Software Revision of this VBE Bios
 #define VBE_OEM_SOFTWARE_REV 0x0002;

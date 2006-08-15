@@ -963,7 +963,7 @@ Bit16u *AX;Bit16u BX; Bit16u ES;Bit16u DI;
                 // first disable current mode (when switching between vesa modi)
                 dispi_set_enable(VBE_DISPI_DISABLED);
 
-                if (cur_info->mode == VBE_VESA_MODE_800X600X4)
+                if (cur_info->info.BitsPerPixel == 4)
                 {
                   biosfn_set_video_mode(0x6a);
                 }

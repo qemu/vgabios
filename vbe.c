@@ -574,6 +574,12 @@ bit9_clear:
   mov  dx, # VGAREG_VGA_CRTC_ADDRESS
   mov  ax, #0x0009
   out  dx, ax
+  mov  al, #0x17
+  out  dx, al
+  mov  dx, # VGAREG_VGA_CRTC_DATA
+  in   al, dx
+  or   al, #0x03
+  out  dx, al
   mov  dx, # VGAREG_ACTL_RESET
   in   al, dx
   mov  dx, # VGAREG_ACTL_ADDRESS

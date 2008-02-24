@@ -902,6 +902,9 @@ Bit16u *AX;Bit16u CX; Bit16u ES;Bit16u DI;
 #endif        
                 memsetb(ss, &info, 0, sizeof(ModeInfoBlock));
                 memcpyb(ss, &info, 0xc000, &(cur_info->info), sizeof(ModeInfoBlockCompact));
+                if (using_lfb) {
+                  info.NumberOfBanks = 1;
+                }
                 if (info.WinAAttributes & VBE_WINDOW_ATTRIBUTE_RELOCATABLE) {
                   info.WinFuncPtr = 0xC0000000UL;
                   *(Bit16u *)&(info.WinFuncPtr) = (Bit16u)(dispi_set_bank_farcall);

@@ -31,8 +31,8 @@ VGA_FILES := vgabios.c vgabios.h vgafonts.h vgatables.h
 VBE_FILES := vbe.h vbe.c vbetables.h
 
 # build flags
-vgabios.bin              : VGAFLAGS := -DVBE
-vgabios.debug.bin        : VGAFLAGS := -DVBE -DDEBUG
+vgabios.bin              : VGAFLAGS := -DVBE -DPCI_VID=0x1234
+vgabios.debug.bin        : VGAFLAGS := -DVBE -DPCI_VID=0x1234 -DDEBUG
 vgabios-cirrus.bin       : VGAFLAGS := -DCIRRUS -DPCIBIOS 
 vgabios-cirrus.debug.bin : VGAFLAGS := -DCIRRUS -DPCIBIOS -DCIRRUS_DEBUG
 

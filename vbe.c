@@ -925,7 +925,11 @@ Bit16u *AX;Bit16u CX; Bit16u ES;Bit16u DI;
                 if (using_lfb) {
                   info.NumberOfBanks = 1;
                 }
-                lfb_addr = pci_get_lfb_addr(0x1234); // experimental vendor
+#ifdef PCI_VID
+                lfb_addr = pci_get_lfb_addr(PCI_VID);
+#else
+                lfb_addr = 0;
+#endif
                 if (lfb_addr > 0) {
                   info.PhysBasePtr = ((Bit32u)lfb_addr << 16);
                 }

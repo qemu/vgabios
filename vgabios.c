@@ -210,7 +210,12 @@ vgabios_pci_data:
 .word 0x1013
 .word 0x00b8 // CLGD5446
 #else
+#ifdef PCI_VID
+.word PCI_VID
+.word PCI_DID
+#else
 #error "Unknown PCI vendor and device id"
+#endif
 #endif
 .word 0 // reserved
 .word 0x18 // dlen

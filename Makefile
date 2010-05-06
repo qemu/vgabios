@@ -14,7 +14,7 @@ RELVERS = `pwd | sed "s-.*/--" | sed "s/vgabios//" | sed "s/-//"`
 
 VGABIOS_DATE = "-DVGABIOS_DATE=\"$(RELDATE)\""
 
-all: bios cirrus-bios stdvga-bios vmware-bios
+all: bios cirrus-bios stdvga-bios vmware-bios qxl-bios
 
 bios: vgabios.bin vgabios.debug.bin
 
@@ -23,6 +23,8 @@ cirrus-bios: vgabios-cirrus.bin vgabios-cirrus.debug.bin
 stdvga-bios: vgabios-stdvga.bin vgabios-stdvga.debug.bin
 
 vmware-bios: vgabios-vmware.bin vgabios-vmware.debug.bin
+
+qxl-bios: vgabios-qxl.bin vgabios-qxl.debug.bin
 
 clean:
 	/bin/rm -f  biossums vbetables-gen vbetables.h *.o *.s *.ld86 \
@@ -43,6 +45,8 @@ vgabios-stdvga.bin       : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x1234 -DPCI_DI
 vgabios-stdvga.debug.bin : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x1234 -DPCI_DID=0x1111 -DDEBUG
 vgabios-vmware.bin       : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x15ad -DPCI_DID=0x0405
 vgabios-vmware.debug.bin : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x15ad -DPCI_DID=0x0405 -DDEBUG
+vgabios-qxl.bin          : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x1b36 -DPCI_DID=0x0100
+vgabios-qxl.debug.bin    : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x1b36 -DPCI_DID=0x0100 -DDEBUG
 
 # dist names
 vgabios.bin              : DISTNAME := VGABIOS-lgpl-latest.bin
@@ -53,6 +57,8 @@ vgabios-stdvga.bin       : DISTNAME := VGABIOS-lgpl-latest.stdvga.bin
 vgabios-stdvga.debug.bin : DISTNAME := VGABIOS-lgpl-latest.stdvga.debug.bin
 vgabios-vmware.bin       : DISTNAME := VGABIOS-lgpl-latest.vmware.bin
 vgabios-vmware.debug.bin : DISTNAME := VGABIOS-lgpl-latest.vmware.debug.bin
+vgabios-qxl.bin          : DISTNAME := VGABIOS-lgpl-latest.qxl.bin
+vgabios-qxl.debug.bin    : DISTNAME := VGABIOS-lgpl-latest.qxl.debug.bin
 
 # dependencies
 vgabios.bin              : $(VGA_FILES) $(VBE_FILES) biossums
@@ -63,6 +69,8 @@ vgabios-stdvga.bin       : $(VGA_FILES) $(VBE_FILES) biossums
 vgabios-stdvga.debug.bin : $(VGA_FILES) $(VBE_FILES) biossums
 vgabios-vmware.bin       : $(VGA_FILES) $(VBE_FILES) biossums
 vgabios-vmware.debug.bin : $(VGA_FILES) $(VBE_FILES) biossums
+vgabios-qxl.bin          : $(VGA_FILES) $(VBE_FILES) biossums
+vgabios-qxl.debug.bin    : $(VGA_FILES) $(VBE_FILES) biossums
 
 # build rule
 %.bin:

@@ -14,13 +14,15 @@ RELVERS = `pwd | sed "s-.*/--" | sed "s/vgabios//" | sed "s/-//"`
 
 VGABIOS_DATE = "-DVGABIOS_DATE=\"$(RELDATE)\""
 
-all: bios cirrus-bios stdvga-bios
+all: bios cirrus-bios stdvga-bios vmware-bios
 
 bios: vgabios.bin vgabios.debug.bin
 
 cirrus-bios: vgabios-cirrus.bin vgabios-cirrus.debug.bin
 
 stdvga-bios: vgabios-stdvga.bin vgabios-stdvga.debug.bin
+
+vmware-bios: vgabios-vmware.bin vgabios-vmware.debug.bin
 
 clean:
 	/bin/rm -f  biossums vbetables-gen vbetables.h *.o *.s *.ld86 \
@@ -39,6 +41,8 @@ vgabios-cirrus.bin       : VGAFLAGS := -DCIRRUS -DPCIBIOS
 vgabios-cirrus.debug.bin : VGAFLAGS := -DCIRRUS -DPCIBIOS -DCIRRUS_DEBUG
 vgabios-stdvga.bin       : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x1234 -DPCI_DID=0x1111
 vgabios-stdvga.debug.bin : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x1234 -DPCI_DID=0x1111 -DDEBUG
+vgabios-vmware.bin       : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x15ad -DPCI_DID=0x0405
+vgabios-vmware.debug.bin : VGAFLAGS := -DVBE -DPCIBIOS -DPCI_VID=0x15ad -DPCI_DID=0x0405 -DDEBUG
 
 # dist names
 vgabios.bin              : DISTNAME := VGABIOS-lgpl-latest.bin
@@ -47,6 +51,8 @@ vgabios-cirrus.bin       : DISTNAME := VGABIOS-lgpl-latest.cirrus.bin
 vgabios-cirrus.debug.bin : DISTNAME := VGABIOS-lgpl-latest.cirrus.debug.bin
 vgabios-stdvga.bin       : DISTNAME := VGABIOS-lgpl-latest.stdvga.bin
 vgabios-stdvga.debug.bin : DISTNAME := VGABIOS-lgpl-latest.stdvga.debug.bin
+vgabios-vmware.bin       : DISTNAME := VGABIOS-lgpl-latest.vmware.bin
+vgabios-vmware.debug.bin : DISTNAME := VGABIOS-lgpl-latest.vmware.debug.bin
 
 # dependencies
 vgabios.bin              : $(VGA_FILES) $(VBE_FILES) biossums
@@ -55,6 +61,8 @@ vgabios-cirrus.bin       : $(VGA_FILES) clext.c biossums
 vgabios-cirrus.debug.bin : $(VGA_FILES) clext.c biossums
 vgabios-stdvga.bin       : $(VGA_FILES) $(VBE_FILES) biossums
 vgabios-stdvga.debug.bin : $(VGA_FILES) $(VBE_FILES) biossums
+vgabios-vmware.bin       : $(VGA_FILES) $(VBE_FILES) biossums
+vgabios-vmware.debug.bin : $(VGA_FILES) $(VBE_FILES) biossums
 
 # build rule
 %.bin:
